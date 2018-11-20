@@ -1,8 +1,10 @@
 from kivy.app import App
 from kivy.uix.widget import Widget
+from kivy.uix.button import Button
 from kivy.properties import ObjectProperty, NumericProperty
 from kivy.vector import Vector
 from kivy.clock import Clock
+from kivy.core.window import Window
 
 
 class Pixel(Widget):
@@ -18,10 +20,20 @@ class Pixel(Widget):
     def update(self, dt):
         pass
 
+    def set_color(self, r, g, b):
+        self.r = r
+        self.g = g
+        self.b = b
+
 
 class PixelGame(Widget):
     def __init__(self):
         Widget.__init__(self)
+
+        self._keyboard = Window.request_keyboard(self.keyboard_closed, self)
+        self._keyboard.bind(on_key_down=self.on_keyboard_down)
+
+        self.add_widget(Button(text="Click me", x = 800, y = 800, width = 200))
 
         self.grid = []
 
@@ -39,8 +51,12 @@ class PixelGame(Widget):
         for row in self.grid:
             for pixel in row:
                 pixel.update(dt)
+                pixel.set_color(0.2, 0.4, 1)
 
-    def on_touch_move(self, touch):
+    def on_keyboard_down(self, keyboard, keycode, text, modifiers): 
+        print("Pressed:", keycode, "Modifiers:", modifiers)
+
+    def keyboard_closed(self):
         pass
 
 
