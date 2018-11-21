@@ -5,6 +5,7 @@ from kivy.properties import ObjectProperty, NumericProperty
 from kivy.vector import Vector
 from kivy.clock import Clock
 from kivy.core.window import Window
+import random
 
 
 class Pixel(Widget):
@@ -24,6 +25,8 @@ class Pixel(Widget):
         self.r = r
         self.g = g
         self.b = b
+    
+    
 
 
 class PixelGame(Widget):
@@ -36,6 +39,7 @@ class PixelGame(Widget):
         self.add_widget(Button(text="Click me", x = 800, y = 800, width = 200))
 
         self.grid = []
+
 
         for y in range(10):
             row = []
@@ -51,10 +55,17 @@ class PixelGame(Widget):
         for row in self.grid:
             for pixel in row:
                 pixel.update(dt)
-                pixel.set_color(0.2, 0.4, 1)
+                #pixel.set_color(0.2, 0.4, 1)
 
-    def on_keyboard_down(self, keyboard, keycode, text, modifiers): 
-        print("Pressed:", keycode, "Modifiers:", modifiers)
+    def on_keyboard_down(self, keyboard, keycode, text, modifiers):
+        r= random.random()
+        g= random.random()
+        b= random.random()
+        for row in self.grid:
+            for pixel in row:
+                pixel.update(1.0 / 60.0)
+                pixel.set_color(r, g, b)
+                #print("Pressed:", keycode, "Modifiers:", modifiers)
 
     def keyboard_closed(self):
         pass
