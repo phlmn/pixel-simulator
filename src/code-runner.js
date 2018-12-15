@@ -10,6 +10,9 @@ export function runCode(code, { setPixel, clear }) {
   frame.src = URL.createObjectURL(new Blob([`
     <!DOCTYPE html>
     <script>
+      const WIDTH = 10;
+      const HEIGHT = 20;
+
       ${frameHelpers}
       ${code}
     </script>
@@ -45,4 +48,16 @@ export function stopCode() {
     document.body.removeChild(frame);
     frame = null;
   }
+}
+
+export function sendMessage(type, payload) {
+  if(!frame) return;
+
+  frame.contentWindow.postMessage(
+    JSON.stringify({
+      type,
+      payload
+    }),
+    "*"
+  );
 }

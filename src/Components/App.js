@@ -4,7 +4,7 @@ import SplitterLayout from 'react-splitter-layout';
 import { CodeEditor } from './CodeEditor';
 import { WallPreview } from './WallPreview';
 import initial_code from 'raw-loader!../initial_editor_content.js';
-import { runCode } from '../code-runner';
+import { runCode, sendMessage } from '../code-runner';
 
 const WIDTH = 10;
 const HEIGHT = 20;
@@ -18,30 +18,6 @@ export default class App extends Component {
 
   }
 
-  constructor() {
-    super();
-    window.setPixel = this.setPixel;
-    window.keys = {
-      up: false,
-      down: false,
-      left: false,
-      right: false,
-    }
-
-    window.addEventListener("keydown", this.onKey);
-    window.addEventListener("keyup", this.onKey);
-  }
-
-  onKey = e => {
-      console.log(e);
-      if(e.path.length < 5) { // the target is not the code editor
-        const match = e.code.match(/Arrow(.*)/g);
-        if(match) {
-          window.keys[match[0].replace("Arrow", "").toLowerCase()] = e.type === "keydown";
-        }
-      }
-  }
-
   render() {
     return (
       <SplitterLayout horizontal percentage secondaryInitialSize={30}>
@@ -49,6 +25,20 @@ export default class App extends Component {
         <WallPreview pixels={this.state.pixels} />
       </SplitterLayout>
     );
+  }
+
+  constructor() {
+    super();
+
+    window.addEventListener("keydown", this.onKey);
+    window.addEventListener("keyup", this.onKey);
+  }
+
+  onKey = e => {
+      if(e.path.length < 5) { // the target is not the code editor
+        const match = e.code.match(/Arrow(.*)/g);
+        if(match) sendMessage(e.type, match[0].replace("Arrow", "").toLowerCase());
+      }
   }
 
   onChangeCode = (code) => {
