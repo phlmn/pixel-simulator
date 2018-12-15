@@ -14,6 +14,8 @@ export default class App extends Component {
     this.state = {
       pixels: Array(HEIGHT).fill(Array(WIDTH).fill([0, 0, 0])),
     };
+
+    window.setPixel = (x, y, c) => this.setPixel(x, y, c);
   }
 
   render() {
@@ -23,5 +25,13 @@ export default class App extends Component {
         <WallPreview pixels={this.state.pixels} />
       </SplitterLayout>
     );
+  }
+
+  setPixel(x, y, color) {
+    this.setState({
+      pixels: this.state.pixels.map((row, yi) =>
+        row.map((c, xi) => (xi === x && yi === y ? color : c))
+      ),
+    });
   }
 }
