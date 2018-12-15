@@ -9,7 +9,7 @@ export function CodeEditor({ code, onChange, onRun }) {
           Run
         </button>
       </div>
-      <div className="monaco" style={{ overflow: 'hidden', flex: '1 1 auto' }}>
+      <div className="monaco" style={{ height: '100%', overflow: 'hidden' }}>
         <MonacoEditor
           language="javascript"
           theme="vs-dark"
