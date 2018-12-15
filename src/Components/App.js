@@ -15,6 +15,31 @@ export default class App extends Component {
   state = {
     pixels: initPixels,
     code: initial_code,
+
+  }
+
+  constructor() {
+    super();
+    window.setPixel = this.setPixel;
+    window.keys = {
+      up: false,
+      down: false,
+      left: false,
+      right: false,
+    }
+
+    window.addEventListener("keydown", this.onKey);
+    window.addEventListener("keyup", this.onKey);
+  }
+
+  onKey = e => {
+      console.log(e);
+      if(e.path.length < 5) { // the target is not the code editor
+        const match = e.code.match(/Arrow(.*)/g);
+        if(match) {
+          window.keys[match[0].replace("Arrow", "").toLowerCase()] = e.type === "keydown";
+        }
+      }
   }
 
   render() {
