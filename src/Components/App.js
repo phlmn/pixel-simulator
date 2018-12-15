@@ -12,15 +12,15 @@ export default class App extends Component {
     super();
 
     this.state = {
-      pixels: Array(HEIGHT).fill(Array(WIDTH).fill([0, 0, 0]))
-    }
+      pixels: Array(HEIGHT).fill(Array(WIDTH).fill([0, 0, 0])),
+    };
   }
 
   render() {
     return (
       <SplitterLayout horizontal percentage secondaryInitialSize={30}>
-            <CodeEditor onChange={newValue => console.log(newValue)} />
-            <WallPreview pixels={this.state.pixels}></WallPreview>
+        <CodeEditor onChange={newValue => console.log(newValue)} />
+        <WallPreview pixels={this.state.pixels} />
       </SplitterLayout>
     );
   }
