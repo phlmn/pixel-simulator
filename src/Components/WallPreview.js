@@ -26,17 +26,22 @@ export class WallPreview extends Component {
               }}
             >
               <tbody>
-                {pixels.map(row => (
-                  <tr>
-                    {row.map(cell => (
+                {pixels.map((row, y) => (
+                  <tr key={y}>
+                    {row.map((cell, x) => (
                       <td
+                        key={x}
                         style={{
-                          backgroundColor: `rgb(${cell.map(v => v * 255).join(',')})`,
-                          border: `2px solid`,
-                          borderColor: '#a0522d',
+                          backgroundColor: this.arr2color(cell),
                           borderRadius: '3px',
-                          boxShadow: 'inset 0px 0px 25px -3px rgba(10,10,10,.5)',
+                          boxShadow: `inset 0px 0px 25px -3px rgba(10,10,10,${this.arrBrightness(
+                            cell
+                          ) *
+                            0.6 +
+                            0.2}),
+                            0 0 10px -1px ${this.arr2color(cell, true)}`,
                         }}
+                        title={`(${x} , ${y})`}
                       />
                     ))}
                   </tr>
@@ -47,5 +52,20 @@ export class WallPreview extends Component {
         )}
       </ReactResizeDetector>
     );
+  }
+
+  arr2color(arr, transparency) {
+    const min = 45;
+    const max = 255;
+
+    if (transparency) {
+      return `rgb(${arr.map(v => min + v * (max - min)).join(',')}, ${this.arrBrightness(arr)})`;
+    } else {
+      return `rgb(${arr.map(v => min + v * (max - min)).join(',')})`;
+    }
+  }
+
+  arrBrightness(arr) {
+    return arr.reduce((a, b) => (a + b) / 3);
   }
 }

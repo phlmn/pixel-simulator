@@ -50,4 +50,12 @@ export default class App extends Component {
       pixels: initPixels,
     });
   }
+
+  setPixel(x, y, color) {
+    this.setState({
+      pixels: this.state.pixels.map((row, yi) =>
+        row.map((c, xi) => (xi === x && yi === y ? color : c))
+      ),
+    });
+  }
 }
