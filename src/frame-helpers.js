@@ -1,19 +1,24 @@
-let keys = {
+let buttons = {
   up: false,
   down: false,
   left: false,
   right: false,
 };
 
+let onButtonDown = () => {};
+let onButtonUp = () => {};
+
 (function() {
   window.onmessage = e => {
     const { type, payload } = JSON.parse(e.data);
     switch (type) {
       case 'keydown':
-        keys[payload] = true;
+        buttons[payload] = true;
+        onButtonDown(payload);
         break;
       case 'keyup':
-        keys[payload] = false;
+        buttons[payload] = false;
+        onButtonUp(payload);
         break;
     }
   };
@@ -38,5 +43,9 @@ let keys = {
 
   window.clear = (x, y, color) => {
     sendMessage('clear');
+  };
+
+  window.draw = () => {
+    sendMessage('draw');
   };
 })();

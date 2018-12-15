@@ -2,7 +2,7 @@ import frameHelpers from 'raw-loader!./frame-helpers.js';
 
 let frame = null;
 
-export function runCode(code, { setPixel, clear }) {
+export function runCode(code, { setPixel, clear, draw }) {
   stopCode();
 
   frame = document.createElement('iframe');
@@ -43,6 +43,10 @@ export function runCode(code, { setPixel, clear }) {
         break;
       case 'clear':
         if (clear) clear();
+        break;
+
+      case 'draw':
+        if (draw) draw();
         break;
     }
   };

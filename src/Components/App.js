@@ -17,6 +17,8 @@ export default class App extends Component {
     code: initial_code,
   };
 
+  buffer = initPixels;
+
   render() {
     return (
       <SplitterLayout horizontal percentage secondaryInitialSize={30}>
@@ -34,7 +36,7 @@ export default class App extends Component {
   }
 
   onKey = e => {
-    if (e.path.length < 5) {
+    if (!e.repeat && e.path.length < 5) {
       // the target is not the code editor
       const match = e.code.match(/Arrow(.*)/g);
       if (match) sendMessage(e.type, match[0].replace('Arrow', '').toLowerCase());
@@ -51,20 +53,23 @@ export default class App extends Component {
     runCode(this.state.code, {
       setPixel: this.setPixel,
       clear: this.clear,
+      draw: this.draw,
     });
   };
 
   clear = () => {
-    this.setState({
-      pixels: initPixels,
-    });
+    this.buffer = initPixels;
   };
 
   setPixel = (x, y, color) => {
-    this.setState({
-      pixels: this.state.pixels.map((row, yi) =>
-        row.map((c, xi) => (xi === x && yi === y ? color : c))
-      ),
-    });
+    this.buffer = this.buffer.map((row, yi) =>
+      row.map((c, xi) => (xi === x && yi === y ? color : c))
+    );
   };
+
+  draw = () => {
+    this.setState({
+      pixels: this.buffer,
+    });
+  }
 }
