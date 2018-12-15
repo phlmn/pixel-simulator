@@ -29,7 +29,7 @@ module.exports = {
   },
   plugins: [
     new MonacoWebpackPlugin({
-      languages: ['typescript'],
+      languages: ['javascript'],
     }),
     new HtmlWebpackPlugin({
       title: 'pixelwall',

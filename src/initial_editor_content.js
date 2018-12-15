@@ -1,5 +1,8 @@
 /*
- *
+ * A game for the flipdot pixel wall.
+ * The environment supplys a `setPixel(x, y, [r, g, b])` function to this code.
+ * With this, it is possible to set the color of the macroscopic pixels, which are arranged
+ * in a matrix with (`WIDTH` * `HEIGHT`).
  */
 
 let cursor = { x: 0, y: 0 };
