@@ -1,42 +1,42 @@
 let keys = {
-  "up": false,
-  "down": false,
-  "left": false,
-  "right": false,
+  up: false,
+  down: false,
+  left: false,
+  right: false,
 };
 
 (function() {
   window.onmessage = e => {
-    const { type, payload }= JSON.parse(e.data);
-    switch(type) {
-      case "keydown":
+    const { type, payload } = JSON.parse(e.data);
+    switch (type) {
+      case 'keydown':
         keys[payload] = true;
-      break;
-      case "keyup":
+        break;
+      case 'keyup':
         keys[payload] = false;
-      break;
+        break;
     }
-  }
+  };
 
   const sendMessage = (type, payload) => {
     window.top.postMessage(
       JSON.stringify({
         type,
-        payload
+        payload,
       }),
-      "*"
+      '*'
     );
   };
 
   window.setPixel = (x, y, color) => {
-    sendMessage("setPixel", {
+    sendMessage('setPixel', {
       x,
       y,
-      color
+      color,
     });
   };
 
   window.clear = (x, y, color) => {
-    sendMessage("clear");
+    sendMessage('clear');
   };
 })();

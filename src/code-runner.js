@@ -1,13 +1,16 @@
-import frameHelpers from "raw-loader!./frame-helpers.js";
+import frameHelpers from 'raw-loader!./frame-helpers.js';
 
 let frame = null;
 
 export function runCode(code, { setPixel, clear }) {
   stopCode();
 
-  frame = document.createElement("iframe");
-  frame.sandbox = "allow-scripts";
-  frame.src = URL.createObjectURL(new Blob([`
+  frame = document.createElement('iframe');
+  frame.sandbox = 'allow-scripts';
+  frame.src = URL.createObjectURL(
+    new Blob(
+      [
+        `
     <!DOCTYPE html>
     <script>
       const WIDTH = 10;
@@ -16,11 +19,15 @@ export function runCode(code, { setPixel, clear }) {
       ${frameHelpers}
       ${code}
     </script>
-  `], {type: "text/html"}));
+  `,
+      ],
+      { type: 'text/html' }
+    )
+  );
   frame.width = 0;
   frame.height = 0;
   frame.frameBorder = 0;
-  frame.id = "frame";
+  frame.id = 'frame';
 
   window.onmessage = e => {
     if (!frame || e.source !== frame.contentWindow) {
@@ -28,7 +35,7 @@ export function runCode(code, { setPixel, clear }) {
     }
 
     const { type, payload } = JSON.parse(e.data); // because security
-    console.debug("[Main] Received message", `type: '${type}'`, "Payload:", payload);
+    console.debug('[Main] Received message', `type: '${type}'`, 'Payload:', payload);
 
     switch (type) {
       case 'setPixel':
@@ -51,13 +58,13 @@ export function stopCode() {
 }
 
 export function sendMessage(type, payload) {
-  if(!frame) return;
+  if (!frame) return;
 
   frame.contentWindow.postMessage(
     JSON.stringify({
       type,
-      payload
+      payload,
     }),
-    "*"
+    '*'
   );
 }
