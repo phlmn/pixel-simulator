@@ -29,7 +29,7 @@ export function runCode(code, { setPixel, clear }) {
 
     switch (type) {
       case 'setPixel':
-        if (setPixel) setPixel(payload.x, payload.y. payload.color);
+        if (setPixel) setPixel(payload.x, payload.y, payload.color);
         break;
       case 'clear':
       if (clear) clear();

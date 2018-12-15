@@ -1,12 +1,15 @@
 import React from 'react';
 import MonacoEditor from 'react-monaco-editor';
 
-export function CodeEditor ({ code, onChange, onRun }) {
-    return (
-      <div className="code-editor">
-        <div>
-          <button type="button" onClick={onRun}>Run</button>
-        </div>
+export function CodeEditor({ code, onChange, onRun }) {
+  return (
+    <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ flex: '0 0 50px' }}>
+        <button type="button" onClick={onRun}>
+          Run
+        </button>
+      </div>
+      <div className="monaco" style={{ overflow: 'hidden', flex: '1 1 auto' }}>
         <MonacoEditor
           language="javascript"
           theme="vs-dark"
@@ -18,5 +21,6 @@ export function CodeEditor ({ code, onChange, onRun }) {
           options={{ automaticLayout: true }}
         />
       </div>
-    );
-  }
+    </div>
+  );
+}

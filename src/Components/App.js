@@ -34,24 +34,18 @@ export default class App extends Component {
 
   onRun = () => {
     runCode(this.state.code, {
-      setPixel: this.onSetPixel,
-      clear: this.onClear,
+      setPixel: this.setPixel,
+      clear: this.clear,
     });
   }
 
-  onSetPixel = (x, y, color) => {
-    this.setState({
-
-    });
-  }
-
-  onClear = () => {
+  clear = () => {
     this.setState({
       pixels: initPixels,
     });
   }
 
-  setPixel(x, y, color) {
+  setPixel = (x, y, color) => {
     this.setState({
       pixels: this.state.pixels.map((row, yi) =>
         row.map((c, xi) => (xi === x && yi === y ? color : c))
