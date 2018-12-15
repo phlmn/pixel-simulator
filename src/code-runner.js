@@ -1,4 +1,4 @@
-import frameHelpers from "!raw-loader!./frame-helpers.js";
+import frameHelpers from "raw-loader!./frame-helpers.js";
 
 let frame = null;
 
@@ -32,7 +32,7 @@ export function runCode(code, { setPixel, clear }) {
         if (setPixel) setPixel(payload.x, payload.y, payload.color);
         break;
       case 'clear':
-      if (clear) clear();
+        if (clear) clear();
         break;
     }
   };
