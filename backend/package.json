@@ -1,0 +1,22 @@
+{
+  "name": "pixelwall-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "maintainers": [
+    "anuejn",
+    "phlmn"
+  ],
+  "license": "AGPL-3.0",
+  "scripts": {
+    "start": "node index.js",
+    "format": "prettier --write 'src/**/*.{js,jsx}'",
+    "test": "echo 'never mind…'"
+  },
+  "devDependencies": {
+    "prettier": "^1.15.3"
+  },
+  "dependencies": {
+    "graphql": "^14.0.2",
+    "pixelwall-frontend": "1.0.0"
+  }
+}
