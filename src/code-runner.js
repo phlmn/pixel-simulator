@@ -35,7 +35,6 @@ export function runCode(code, { setPixel, clear, draw }) {
     }
 
     const { type, payload } = JSON.parse(e.data); // because security
-    console.debug('[Main] Received message', `type: '${type}'`, 'Payload:', payload);
 
     switch (type) {
       case 'setPixel':

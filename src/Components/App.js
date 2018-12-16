@@ -5,6 +5,7 @@ import { CodeEditor } from './CodeEditor';
 import { WallPreview } from './WallPreview';
 import initial_code from 'raw-loader!../initial_editor_content.js';
 import { runCode, sendMessage } from '../code-runner';
+import * as gamepad from '../gamepad';
 
 const WIDTH = 10;
 const HEIGHT = 20;
@@ -33,6 +34,11 @@ export default class App extends Component {
 
     window.addEventListener('keydown', this.onKey);
     window.addEventListener('keyup', this.onKey);
+    gamepad.startListening(this.onButton);
+  }
+
+  onButton = e => {
+    sendMessage("key" + e.type, e.button);
   }
 
   onKey = e => {
@@ -71,5 +77,5 @@ export default class App extends Component {
     this.setState({
       pixels: this.buffer,
     });
-  }
+  };
 }
