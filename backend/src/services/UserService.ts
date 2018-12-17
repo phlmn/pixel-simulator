@@ -1,14 +1,14 @@
 import { ObjectID } from 'bson';
-
-import { db } from './index';
 import { compare, hash } from 'bcrypt';
+
+import { db } from '../database';
 
 function collection() {
   return db.collection('users');
 }
 
 async function hashPassword(password) {
-  return hash(password, 14);
+  return hash(password, 13);
 }
 
 export async function login(username: string, password: string) {

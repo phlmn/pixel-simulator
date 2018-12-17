@@ -3,7 +3,7 @@ import expressPlayground from 'graphql-playground-middleware-express';
 import expressJwt from 'express-jwt';
 
 import graphql from './graphql';
-import { initDatabase } from './services';
+import { initDatabase } from './database';
 
 const app = express();
 

@@ -1,6 +1,6 @@
 import { ObjectID } from 'bson';
 
-import { db } from './index';
+import { db } from '../database';
 
 function collection() {
   return db.collection('games');
