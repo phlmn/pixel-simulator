@@ -38,7 +38,7 @@ export default {
       await createGame({
         title: data.title,
         code: data.code,
-        owner: req.user._id,
+        owner: req.user.sub,
         preview: data.preview,
       })
     );
@@ -69,7 +69,7 @@ export default {
     }
 
     const game = await getGameById(id);
-    if (game.owner !== req.user._id) {
+    if (game.owner !== req.user.sub) {
       throw new Error('Not authorized!');
     }
 
