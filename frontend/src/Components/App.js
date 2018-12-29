@@ -8,7 +8,7 @@ import { runCode, sendMessage } from '../code-runner';
 import * as gamepad from '../gamepad';
 
 const WIDTH = 10;
-const HEIGHT = 20;
+const HEIGHT = 10;
 
 const initPixels = Array(HEIGHT).fill(Array(WIDTH).fill([0, 0, 0]));
 
@@ -78,7 +78,7 @@ export default class App extends Component {
       pixels: this.buffer,
     });
 
-    fetch('localhost:8765/setpixels', {
+    fetch('http://localhost:8765/setpixels', {
       method: 'POST',
       body: JSON.stringify(this.buffer),
       headers: {

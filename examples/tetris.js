@@ -104,20 +104,19 @@ class Shape {
 
 
 clear();
-let falling = new Shape([4, 0]);
+let falling = new Shape([4, -1]);
 
 setInterval(() => {
   if (falling.checkCollision([0, 1])) {
     falling.getPixels().forEach(pos => {
       ground[pos[0]][pos[1]] = falling.color;
-      setPixel(pos[0], pos[1], [1, 1, 1]);
     });
 
-    falling = new Shape([4, 0]);
+    falling = new Shape([4, -1]);
   }
   falling.fall();
   draw();
-}, 250);
+}, 500);
 
 onButtonDown = (button) => {
   if (button === 'right') {

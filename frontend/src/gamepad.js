@@ -33,11 +33,11 @@ function mapButton(button) {
       return 'right';
     case 1:
       return 'A';
-    case 0:
-      return 'B';
     case 2:
-      return 'Y';
+      return 'B';
     case 3:
+      return 'Y';
+    case 0:
       return 'X';
     case 5:
       return 'R';

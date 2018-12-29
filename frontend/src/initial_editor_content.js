@@ -19,10 +19,20 @@ setInterval(() => {
   const time = +new Date() / 1000;
   const TAU = 2 * Math.PI;
   const sin = Math.sin;
-  setPixel(cursor.x, cursor.y, [
-    sin(time) * 0.5 + 0.5,
-    sin(time + 0.33 * TAU) * 0.5 + 0.5,
-    sin(time + 0.66 * TAU) * 0.5 + 0.5,
-  ]);
+  if (buttons.B) {
+    setPixel(cursor.x, cursor.y, [0, 0, 0]);
+  } else {
+    setPixel(cursor.x, cursor.y, [
+      sin(time) * 0.5 + 0.5,
+      sin(time + 0.33 * TAU) * 0.5 + 0.5,
+      sin(time + 0.66 * TAU) * 0.5 + 0.5,
+    ]);
+  }
   draw();
 }, 1000 / 10);
+
+onButtonDown = (btn) => {
+  if (btn === 'A') {
+    clear();
+  }
+}

@@ -14,7 +14,7 @@ export function runCode(code, { setPixel, clear, draw }) {
     <!DOCTYPE html>
     <script>
       const WIDTH = 10;
-      const HEIGHT = 20;
+      const HEIGHT = 10;
 
       ${frameHelpers}
       ${code}
