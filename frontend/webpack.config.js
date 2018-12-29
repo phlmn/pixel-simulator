@@ -5,7 +5,7 @@ const path = require('path');
 const MonacoEditorSrc = path.join(__dirname, '..', 'src');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/index.jsx',
   output: {
     path: path.join(__dirname, './out'),
     filename: 'index.js',
@@ -24,7 +24,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.js', '.json'],
+    extensions: ['.js', '.jsx', '.json'],
     alias: { 'src/react-monaco-editor': MonacoEditorSrc }
   },
   plugins: [

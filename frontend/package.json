@@ -1,7 +1,6 @@
 {
   "name": "pixelwall-frontend",
   "version": "1.0.0",
-  "main": "index.js",
   "maintainers": [
     "anuejn",
     "phlmn"
@@ -48,8 +47,12 @@
     "webpack-dev-server": "^3.1.10"
   },
   "dependencies": {
+    "apollo-boost": "^0.1.23",
+    "apollo-client": "^2.4.8",
+    "graphql": "^14.0.2",
     "monaco-editor": "^0.15.6",
     "react": "^16.6.3",
+    "react-apollo": "^2.3.3",
     "react-dom": "^16.6.3",
     "react-monaco-editor": "^0.22.0",
     "react-resize-detector": "^3.2.1",
