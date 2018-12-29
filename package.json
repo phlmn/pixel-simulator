@@ -9,7 +9,8 @@
     ],
     "packages": [
       "frontend",
-      "backend"
+      "backend",
+      "gateway"
     ]
   },
   "devDependencies": {

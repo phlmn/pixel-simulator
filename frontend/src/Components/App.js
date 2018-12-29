@@ -77,5 +77,13 @@ export default class App extends Component {
     this.setState({
       pixels: this.buffer,
     });
+
+    fetch('localhost:8765/setpixels', {
+      method: 'POST',
+      body: JSON.stringify(this.buffer),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   };
 }

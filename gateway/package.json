@@ -1,0 +1,22 @@
+{
+  "name": "pixelwall-gateway",
+  "version": "1.0.0",
+  "main": "index.js",
+  "maintainers": [
+    "anuejn",
+    "phlmn"
+  ],
+  "license": "AGPL-3.0",
+  "scripts": {
+    "start": "node index.js",
+    "format": "prettier --write 'src/**/*.{js,jsx}'",
+    "test": "echo 'never mind…'"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "lodash": "^4.17.11",
+    "serialport": "^7.1.1"
+  }
+}
