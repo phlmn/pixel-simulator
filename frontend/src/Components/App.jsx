@@ -56,6 +56,7 @@ export default class App extends Component {
   };
 
   onRun = () => {
+    this.clear();
     runCode(this.state.code, {
       setPixel: this.setPixel,
       clear: this.clear,

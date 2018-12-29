@@ -18,16 +18,22 @@ export function CodeEditor({ code, onChange, onSave, onRun }) {
           <IoMdApps />
         </div>
         <div>
-          <IoMdCloudUpload />
-          <input type='text' value="Title" style={{
-            color: "inherit",
-            background: "inherit",
-            border: "none",
-            fontSize: "inherit",
-          }}/>
+          <input type='text' defaultValue="Title"
+            placeholder='Enter Title'
+            style={{
+              color: "inherit",
+              background: "inherit",
+              border: "none",
+              fontSize: "inherit",
+              marginRight: "10px",
+              padding: '0 10px',
+              textAlign: 'center', 
+            }}
+          />
         </div>
         <div>
-          <IoMdPlay onClick={onRun}></IoMdPlay>
+          <IoMdCloudUpload style={{marginRight: "20px"}}/>
+          <IoMdPlay onClick={onRun} id="play"></IoMdPlay>
         </div>
       </div>
       <div className="monaco" style={{ height: '100%', overflow: 'hidden' }}>

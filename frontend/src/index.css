@@ -6,3 +6,12 @@ html, body {
 
   background: #222;
 }
+
+@keyframes pulsing {
+  0%   { transform: scale(0.9); }
+  100% { transform: scale(1.2); }
+}
+
+#play {
+  animation: pulsing 0.8s infinite alternate;
+}
