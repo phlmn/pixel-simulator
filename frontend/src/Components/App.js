@@ -3,7 +3,7 @@ import SplitterLayout from 'react-splitter-layout';
 
 import { CodeEditor } from './CodeEditor';
 import { WallPreview } from './WallPreview';
-import initial_code from 'raw-loader!../initial_editor_content.js';
+import initial_code from '!raw-loader!../initial_editor_content.js';
 import { runCode, sendMessage } from '../code-runner';
 import * as gamepad from '../gamepad';
 
