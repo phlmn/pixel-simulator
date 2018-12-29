@@ -108,18 +108,6 @@ export function startListening(onButton) {
           }
         });
 
-        // if (newAxesDirection !== lastGamepadState.axesDirection) {
-        //   console.debug("[Gamepad] Axes diretion changed.", { direction: newAxesDirection });
-        //   lastGamepadState.axesDirection && lastGamepadState.axesDirection.split(' ').forEach(direction => {
-        //     notifyListeners(direction, 'up');
-        //   });
-
-        //   newAxesDirection && newAxesDirection.split(' ').forEach(direction => {
-        //     notifyListeners(direction, 'down');
-        //   });
-        //   lastGamepadState.axesDirection = newAxesDirection;
-        // }
-
         newButtons.forEach((newButton, i) => {
           const buttonString = mapButton(i);
           if (buttonString && newButton.pressed != lastGamepadState.buttons[buttonString]) {

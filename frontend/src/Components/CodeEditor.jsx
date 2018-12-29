@@ -19,15 +19,12 @@ export function CodeEditor({ code, onChange, onSave, onRun }) {
         </div>
         <div>
           <IoMdCloudUpload />
-          <span type='text' value="Title"
-            contentEditable="true"
-            style={{
-              color: "inherit",
-              background: "inherit",
-              border: "none",
-              fontSize: "inherit",
-            }}
-          />
+          <input type='text' value="Title" style={{
+            color: "inherit",
+            background: "inherit",
+            border: "none",
+            fontSize: "inherit",
+          }}/>
         </div>
         <div>
           <IoMdPlay onClick={onRun}></IoMdPlay>

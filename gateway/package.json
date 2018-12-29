@@ -18,6 +18,7 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "lodash": "^4.17.11",
+    "promisify": "^0.0.3",
     "serialport": "^7.1.1"
   }
 }
