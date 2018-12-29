@@ -1,0 +1,38 @@
+{
+  "name": "pixelwall-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "maintainers": [
+    "anuejn",
+    "phlmn"
+  ],
+  "license": "AGPL-3.0",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "format": "prettier --write 'src/**/*.{js,jsx}'",
+    "test": "echo 'never mind…'"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^3.0.0",
+    "@types/express-graphql": "^0.6.2",
+    "@types/express-jwt": "^0.0.40",
+    "@types/jsonwebtoken": "^8.3.0",
+    "@types/mongodb": "^3.1.17",
+    "@types/uuid": "^3.4.4",
+    "prettier": "^1.15.3",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.2.2"
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.2",
+    "express": "^4.16.4",
+    "express-graphql": "^0.7.1",
+    "express-jwt": "^5.3.1",
+    "graphql": "^14.0.2",
+    "graphql-playground-middleware-express": "^1.7.8",
+    "jsonwebtoken": "^8.4.0",
+    "mongodb": "^3.1.10",
+    "pixelwall-frontend": "1.0.0",
+    "uuid": "^3.3.2"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "lib": [
+      "es2015"
+    ]
+  },
+  "include": [
+    "src/**/*"
+  ],
+}

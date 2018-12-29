@@ -1,0 +1,37 @@
+type Query {
+  games: [Game!]!
+  game(id: String!): Game!
+}
+
+type Mutation {
+  createGame(data: GameUpdate!): Game!
+  updateGame(id: String!, data: GameUpdate!): Game!
+  deleteGame(id: String!): Boolean!
+
+  register(username: String!, password: String!): User!
+  login(username: String!, password: String!): TokenInfo
+}
+
+type TokenInfo {
+  accessToken: String!
+  type: String!
+}
+
+type Game {
+  _id: String!
+  title: String!
+  code: String!
+  owner: User
+  preview: [[String]!]
+}
+
+input GameUpdate {
+  title: String
+  code: String
+  preview: [[String]!]
+}
+
+type User {
+  _id: String!
+  username: String!
+}
