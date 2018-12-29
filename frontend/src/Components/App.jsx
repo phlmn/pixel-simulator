@@ -1,91 +1,61 @@
-import React, { Component } from 'react';
-import SplitterLayout from 'react-splitter-layout';
+import React from 'react';
+import { gql } from 'apollo-boost';
+import nanoid from 'nanoid';
 
-import { CodeEditor } from './CodeEditor';
-import { WallPreview } from './WallPreview';
-import initial_code from '!raw-loader!../initial_editor_content.js';
-import { runCode, sendMessage } from '../code-runner';
-import * as gamepad from '../gamepad';
+import GameEditor from './GameEditor';
+import Gallery from './Gallery';
+import { client } from '../backend';
 
-const WIDTH = 10;
-const HEIGHT = 10;
-
-const initPixels = Array(HEIGHT).fill(Array(WIDTH).fill([0, 0, 0]));
-
-export default class App extends Component {
-  state = {
-    pixels: initPixels,
-    code: initial_code,
-  };
-
-  buffer = initPixels;
-
-  render() {
-    return (
-      <SplitterLayout horizontal percentage secondaryInitialSize={30}>
-        <CodeEditor code={this.state.code} onChange={this.onChangeCode} onRun={this.onRun} />
-        <WallPreview pixels={this.state.pixels} />
-      </SplitterLayout>
-    );
+const CREATE_USER = gql`
+  mutation($username: String!, $password: String!) {
+    register(username: $username, password: $password) {
+      _id
+    }
   }
+`;
+
+const LOGIN_USER = gql`
+mutation($username: String!, $password: String!) {
+  login(username: $username, password: $password) {accessToken}
+}
+`
+
+export default class App extends React.Component {
+  state = {
+    selectedGame: null,
+    accessToken: null,
+  };
 
   constructor() {
     super();
 
-    window.addEventListener('keydown', this.onKey);
-    window.addEventListener('keyup', this.onKey);
-    gamepad.startListening(this.onButton);
-  }
+    let username = localStorage.getItem("username");
+    let password = localStorage.getItem("password");
 
-  onButton = e => {
-    sendMessage("key" + e.type, e.button);
-  }
+    if(!username || !password) {
+      username = nanoid(10);
+      password = nanoid(20);
+      localStorage.setItem("username", username);
+      localStorage.setItem("password", password);
 
-  onKey = e => {
-    if (!e.repeat && e.path.length < 5) {
-      // the target is not the code editor
-      const match = e.code.match(/Arrow(.*)/g);
-      if (match) sendMessage(e.type, match[0].replace('Arrow', '').toLowerCase());
-    }
-  };
-
-  onChangeCode = code => {
-    this.setState({
-      code,
-    });
-  };
-
-  onRun = () => {
-    this.clear();
-    runCode(this.state.code, {
-      setPixel: this.setPixel,
-      clear: this.clear,
-      draw: this.draw,
-    });
-  };
-
-  clear = () => {
-    this.buffer = initPixels;
-  };
-
-  setPixel = (x, y, color) => {
-    this.buffer = this.buffer.map((row, yi) =>
-      row.map((c, xi) => (xi === x && yi === y ? color : c))
-    );
-  };
-
-  draw = () => {
-    this.setState({
-      pixels: this.buffer,
-    });
-
-    if(!window.location.hash) return;
-    fetch('http://localhost:8765/setpixels', {
-      method: 'POST',
-      body: JSON.stringify(this.buffer),
-      headers: {
-        'Content-Type': 'application/json'
+      if (!this.state.token) {
+        client.mutate({ mutation: CREATE_USER, variables: { username, password }}).then(({accessToken}) => {
+          console.log(res);
+          this.setState({accessToken})
+        });
       }
+    }
+
+    client.mutate({ mutation:  LOGIN_USER, variables: { username, password }}).then((res) => {
+      console.log(res);
     });
-  };
+  }
+
+  render() {
+    if (this.state.selectedGame != null) {
+      return <GameEditor viewGallery={() => this.setState({ selectedGame: null })} gameId={this.state.selectedGame}/>;
+    } else {
+      return <Gallery onSelectGame={id => this.setState({ selectedGame: id })} />;
+    }
+  }
 }

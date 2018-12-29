@@ -24,7 +24,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.json'],
+    extensions: ['*', '.mjs', '.js', '.jsx', '.json'],
     alias: { 'src/react-monaco-editor': MonacoEditorSrc }
   },
   plugins: [
