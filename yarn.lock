@@ -6438,6 +6438,13 @@ promise-retry@^1.1.1:
     err-code "^1.0.0"
     retry "^0.10.0"
 
+promisify@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/promisify/-/promisify-0.0.3.tgz#754db61f29ee6476ab543c45b464d21f5ef55686"
+  integrity sha1-dU22HynuZHarVDxFtGTSH171VoY=
+  dependencies:
+    when ""
+
 promzard@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/promzard/-/promzard-0.3.0.tgz#26a5d6ee8c7dee4cb12208305acfb93ba382a9ee"
@@ -8302,6 +8309,11 @@ whatwg-url@^7.0.0:
     lodash.sortby "^4.7.0"
     tr46 "^1.0.1"
     webidl-conversions "^4.0.2"
+
+when@:
+  version "3.7.8"
+  resolved "https://registry.yarnpkg.com/when/-/when-3.7.8.tgz#c7130b6a7ea04693e842cdc9e7a1f2aa39a39f82"
+  integrity sha1-xxMLan6gRpPoQs3J56Hyqjmjn4I=
 
 which-module@^2.0.0:
   version "2.0.0"
