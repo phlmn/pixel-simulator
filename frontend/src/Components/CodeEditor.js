@@ -1,8 +1,8 @@
 import React from 'react';
 import MonacoEditor from 'react-monaco-editor';
-import { IoMdApps, IoMdPlay } from 'react-icons/io';
+import { IoMdApps, IoMdPlay, IoMdCloudUpload } from 'react-icons/io';
 
-export function CodeEditor({ code, onChange, onRun }) {
+export function CodeEditor({ code, onChange, onSave, onRun }) {
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <div style={{ 
@@ -17,7 +17,15 @@ export function CodeEditor({ code, onChange, onRun }) {
         <div>
           <IoMdApps />
         </div>
-        <input type='text' />
+        <div>
+          <IoMdCloudUpload />
+          <input type='text' value="Title" style={{
+            color: "inherit",
+            background: "inherit",
+            border: "none",
+            fontSize: "inherit",
+          }}/>
+        </div>
         <div>
           <IoMdPlay onClick={onRun}></IoMdPlay>
         </div>

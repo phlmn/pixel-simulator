@@ -78,6 +78,7 @@ export default class App extends Component {
       pixels: this.buffer,
     });
 
+    if(!window.location.hash) return;
     fetch('http://localhost:8765/setpixels', {
       method: 'POST',
       body: JSON.stringify(this.buffer),
