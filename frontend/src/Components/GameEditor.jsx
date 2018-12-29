@@ -9,6 +9,7 @@ import * as gamepad from '../gamepad';
 
 import MonacoEditor from 'react-monaco-editor';
 import { IoMdApps, IoMdPlay, IoMdCloudUpload } from 'react-icons/io';
+import { client } from '../backend';
 
 const WIDTH = 10;
 const HEIGHT = 10;
@@ -23,6 +24,14 @@ const GET_GAME = gql`
     }
   }
 `;
+
+const UPDATE_GAME = gql`
+  mutation($id:String!,$data:GameUpdate!){
+    updateGame(id:$id,data:$data){
+    _id
+    }
+  }
+`
 
 export default class GameEditor extends Component {
   state = {
@@ -53,13 +62,13 @@ export default class GameEditor extends Component {
                   }}
                 >
                   <div>
-                    <IoMdApps onClick={() => this.viewGallery()} />
+                    <IoMdApps onClick={() => this.props.viewGallery()} />
                   </div>
                   <div>
                     <input
                       type="text"
                       value={this.state.title === undefined ? data.game.title : this.state.title}
-                      onChange={v => this.setState({title: v.currentTarget.value})}
+                      onChange={v => this.setState({ title: v.currentTarget.value })}
                       placeholder="Enter Title"
                       style={{
                         color: 'inherit',
@@ -104,6 +113,10 @@ export default class GameEditor extends Component {
     window.addEventListener('keydown', this.onKey);
     window.addEventListener('keyup', this.onKey);
     gamepad.startListening(this.onButton);
+  }
+
+  onUploadCode() {
+    client.mutate({mutation: UPDATE_GAME})
   }
 
   onButton = e => {
