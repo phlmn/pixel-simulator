@@ -15,10 +15,12 @@ const CREATE_USER = gql`
 `;
 
 const LOGIN_USER = gql`
-mutation($username: String!, $password: String!) {
-  login(username: $username, password: $password) {accessToken}
-}
-`
+  mutation($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
+      accessToken
+    }
+  }
+`;
 
 export default class App extends React.Component {
   state = {
@@ -26,34 +28,39 @@ export default class App extends React.Component {
     accessToken: null,
   };
 
-  constructor() {
-    super();
+  async componentDidMount() {
+    let username = localStorage.getItem('username');
+    let password = localStorage.getItem('password');
 
-    let username = localStorage.getItem("username");
-    let password = localStorage.getItem("password");
-
-    if(!username || !password) {
+    if (!username || !password) {
       username = nanoid(10);
       password = nanoid(20);
-      localStorage.setItem("username", username);
-      localStorage.setItem("password", password);
+      localStorage.setItem('username', username);
+      localStorage.setItem('password', password);
 
       if (!this.state.token) {
-        client.mutate({ mutation: CREATE_USER, variables: { username, password }}).then(({accessToken}) => {
-          console.log(res);
-          this.setState({accessToken})
-        });
+        await client
+          .mutate({ mutation: CREATE_USER, variables: { username, password } })
+          .then(({ accessToken }) => {
+            console.log(res);
+            this.setState({ accessToken });
+          });
       }
     }
 
-    client.mutate({ mutation:  LOGIN_USER, variables: { username, password }}).then((res) => {
+    await client.mutate({ mutation: LOGIN_USER, variables: { username, password } }).then(res => {
       console.log(res);
     });
   }
 
   render() {
     if (this.state.selectedGame != null) {
-      return <GameEditor viewGallery={() => this.setState({ selectedGame: null })} gameId={this.state.selectedGame}/>;
+      return (
+        <GameEditor
+          viewGallery={() => this.setState({ selectedGame: null })}
+          gameId={this.state.selectedGame}
+        />
+      );
     } else {
       return <Gallery onSelectGame={id => this.setState({ selectedGame: id })} />;
     }
