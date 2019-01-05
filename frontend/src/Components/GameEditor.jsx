@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import SplitterLayout from 'react-splitter-layout';
 import { gql } from 'apollo-boost';
 import { Query } from 'react-apollo';
+import MonacoEditor from 'react-monaco-editor';
+import { IoMdApps, IoMdPlay, IoMdCloudUpload } from 'react-icons/io';
 
 import { WallPreview } from './WallPreview';
 import { runCode, sendMessage } from '../code-runner';
 import * as gamepad from '../gamepad';
-
-import MonacoEditor from 'react-monaco-editor';
-import { IoMdApps, IoMdPlay, IoMdCloudUpload } from 'react-icons/io';
 import { client } from '../backend';
+import { ErrorMessage } from './ErrorMessage';
 
 const WIDTH = 10;
 const HEIGHT = 10;
@@ -26,85 +26,131 @@ const GET_GAME = gql`
 `;
 
 const UPDATE_GAME = gql`
-  mutation($id:String!,$data:GameUpdate!){
-    updateGame(id:$id,data:$data){
-    _id
+  mutation($id: String!, $data: GameUpdate!) {
+    updateGame(id: $id, data: $data) {
+      _id
+      title
+      code
     }
   }
-`
+`;
+
+const CREATE_GAME = gql`
+  mutation($data: GameUpdate!) {
+    createGame(data: $data) {
+      _id
+      title
+      code
+    }
+  }
+`;
 
 export default class GameEditor extends Component {
   state = {
     pixels: initPixels,
     title: undefined,
     code: undefined,
+    error: null,
   };
 
   buffer = initPixels;
 
-  render() {
+  renderInner = game => {
+    const title = this.state.title === undefined ? game.title : this.state.title || '';
+    const code = this.state.code === undefined ? game.code : this.state.code || '';
+
     return (
-      <Query query={GET_GAME} variables={{ id: this.props.gameId }}>
-        {({ data }) => {
-          if (!data.game) return null;
-          return (
-            <SplitterLayout horizontal percentage secondaryInitialSize={30}>
-              <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <div
-                  style={{
-                    flex: '0 0 50px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    color: '#fff',
-                    justifyContent: 'space-between',
-                    margin: '0 20px',
-                    fontSize: '30px',
-                  }}
-                >
-                  <div>
-                    <IoMdApps onClick={() => this.props.viewGallery()} />
-                  </div>
-                  <div>
-                    <input
-                      type="text"
-                      value={this.state.title === undefined ? data.game.title : this.state.title}
-                      onChange={v => this.setState({ title: v.currentTarget.value })}
-                      placeholder="Enter Title"
-                      style={{
-                        color: 'inherit',
-                        background: 'inherit',
-                        border: 'none',
-                        fontSize: 'inherit',
-                        marginRight: '10px',
-                        padding: '0 10px',
-                        textAlign: 'center',
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <IoMdCloudUpload style={{ marginRight: '20px' }} />
-                    <IoMdPlay onClick={this.onRun} id="play" />
-                  </div>
-                </div>
-                <div className="monaco" style={{ height: '100%', overflow: 'hidden' }}>
-                  <MonacoEditor
-                    language="javascript"
-                    theme="vs-dark"
-                    value={this.state.code === undefined ? data.game.code : this.state.code}
-                    onChange={this.onChange}
-                    editorDidMount={editor => {
-                      editor.focus();
-                    }}
-                    options={{ automaticLayout: true }}
-                  />
-                </div>
-              </div>
-              <WallPreview pixels={this.state.pixels} />
-            </SplitterLayout>
-          );
-        }}
-      </Query>
+      <SplitterLayout horizontal percentage secondaryInitialSize={30}>
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <div
+            style={{
+              flex: '0 0 50px',
+              display: 'flex',
+              alignItems: 'center',
+              color: '#fff',
+              justifyContent: 'space-between',
+              margin: '0 20px',
+              fontSize: '30px',
+            }}
+          >
+            <div>
+              <IoMdApps onClick={() => this.props.viewGallery()} />
+            </div>
+            <div>
+              <input
+                type="text"
+                value={title}
+                onChange={v => this.setState({ title: v.currentTarget.value })}
+                placeholder="Enter Title"
+                style={{
+                  color: 'inherit',
+                  background: 'inherit',
+                  border: 'none',
+                  fontSize: 'inherit',
+                  marginRight: '10px',
+                  padding: '0 10px',
+                  textAlign: 'center',
+                }}
+              />
+            </div>
+            <div>
+              <IoMdCloudUpload onClick={this.onUploadCode} style={{ marginRight: '20px' }} />
+              <IoMdPlay onClick={() => this.onRun(code)} id="play" />
+            </div>
+          </div>
+          <div className="monaco" style={{ height: '100%', overflow: 'hidden' }}>
+            <MonacoEditor
+              language="javascript"
+              theme="vs-dark"
+              value={code}
+              onChange={this.onChangeCode}
+              editorDidMount={editor => {
+                editor.focus();
+              }}
+              options={{ automaticLayout: true }}
+            />
+          </div>
+        </div>
+        <div
+          style={{
+            height: '100%',
+          }}
+        >
+          {this.state.error && (
+            <ErrorMessage
+              style={{
+                position: 'absolute',
+              }}
+              text={this.state.error}
+            />
+          )}
+          <WallPreview
+            style={{
+            }}
+            pixels={this.state.pixels}
+          />
+        </div>
+      </SplitterLayout>
     );
+  };
+
+  render() {
+    if (this.props.gameId === 'new') {
+      return this.renderInner({});
+    } else {
+      return (
+        <Query
+          query={GET_GAME}
+          variables={{ id: this.props.gameId }}
+          fetchPolicy="cache-and-network"
+        >
+          {({ data }) => {
+            if (!data.game) return null;
+            return this.renderInner(data.game);
+          }}
+        </Query>
+      );
+    }
   }
 
   constructor() {
@@ -115,9 +161,34 @@ export default class GameEditor extends Component {
     gamepad.startListening(this.onButton);
   }
 
-  onUploadCode() {
-    client.mutate({mutation: UPDATE_GAME})
-  }
+  generatePreview = pixels => {
+    return pixels.map(row => {
+      return row.map(col => this.arr2color(col));
+    });
+  };
+
+  onUploadCode = async () => {
+    if (this.props.gameId === 'new') {
+      const createData = {
+        title: this.state.title,
+        code: this.state.code,
+        preview: this.generatePreview(this.state.pixels),
+      };
+      const { data } = await client.mutate({
+        mutation: CREATE_GAME,
+        variables: { data: createData },
+      });
+    } else {
+      const update = {};
+      if (this.state.title) update.title = this.state.title;
+      if (this.state.code) update.code = this.state.code;
+
+      await client.mutate({
+        mutation: UPDATE_GAME,
+        variables: { id: this.props.gameId, data: update },
+      });
+    }
+  };
 
   onButton = e => {
     sendMessage('key' + e.type, e.button);
@@ -137,17 +208,27 @@ export default class GameEditor extends Component {
     });
   };
 
-  onRun = () => {
+  onRun = code => {
     this.clear();
-    runCode(this.state.code, {
+    this.clearError();
+    runCode(code, {
       setPixel: this.setPixel,
       clear: this.clear,
       draw: this.draw,
+      onError: this.handleError,
     });
   };
 
   clear = () => {
     this.buffer = initPixels;
+  };
+
+  handleError = message => {
+    this.setState({ error: message });
+  };
+
+  clearError = () => {
+    this.setState({ error: null });
   };
 
   setPixel = (x, y, color) => {
@@ -170,4 +251,19 @@ export default class GameEditor extends Component {
       },
     });
   };
+
+  arr2color(arr, transparency) {
+    const min = 45;
+    const max = 255;
+
+    if (transparency) {
+      return `rgb(${arr.map(v => min + v * (max - min)).join(',')}, ${this.arrBrightness(arr)})`;
+    } else {
+      return `rgb(${arr.map(v => min + v * (max - min)).join(',')})`;
+    }
+  }
+
+  arrBrightness(arr) {
+    return arr.reduce((a, b) => (a + b) / 3);
+  }
 }

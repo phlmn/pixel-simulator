@@ -9,7 +9,14 @@ export class WallPreview extends Component {
     return (
       <ReactResizeDetector handleWidth handleHeight>
         {(width, height) => (
-          <div style={{ backgroundColor: '#1E1E1E', height: '100%', width: '100%' }}>
+          <div
+            style={{
+              backgroundColor: '#1E1E1E',
+              height: '100%',
+              width: '100%',
+              ...this.props.style,
+            }}
+          >
             <table
               style={{
                 width: '100%',

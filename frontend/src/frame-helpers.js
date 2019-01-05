@@ -48,4 +48,8 @@ let onButtonUp = () => {};
   window.draw = () => {
     sendMessage('draw');
   };
+
+  window._reportError = (e) => {
+    sendMessage('error', { message: e.toString() });
+  }
 })();

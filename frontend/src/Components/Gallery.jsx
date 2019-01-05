@@ -14,13 +14,16 @@ const GET_GAMES = gql`
 export default function Gallery({ onSelectGame }) {
   return (
     <div style={{ textAlign: 'center' }}>
-      <h1 style={{ color: 'white' }}>PIXELWALL GAME GALLERY</h1>
+      <h1 style={{ color: 'white', margin: '3rem 0', textTransform: 'uppercase' }}>Pixelwall Game Gallery</h1>
       <div
         style={{
           display: 'flex',
+          marginTop: '-20px',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
         }}
       >
-        <Query query={GET_GAMES}>
+        <Query query={GET_GAMES} fetchPolicy="cache-and-network">
           {({ data }) => {
             if (!data.games) return null;
 
@@ -30,13 +33,15 @@ export default function Gallery({ onSelectGame }) {
                 key={i}
                 style={{
                   width: '300px',
+                  color: '#fff',
                   height: '300px',
-                  backgroundColor: '#fff',
+                  backgroundColor: '#444',
                   margin: '20px',
                   textAlign: 'center',
                   display: 'flex',
                   justifyContent: 'center',
                   flexDirection: 'column',
+                  cursor: 'pointer',
                 }}
                 onClick={() => onSelectGame(app._id)}
               >

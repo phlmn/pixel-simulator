@@ -25,7 +25,6 @@ const LOGIN_USER = gql`
 export default class App extends React.Component {
   state = {
     selectedGame: null,
-    accessToken: null,
   };
 
   async componentDidMount() {
@@ -38,19 +37,16 @@ export default class App extends React.Component {
       localStorage.setItem('username', username);
       localStorage.setItem('password', password);
 
-      if (!this.state.token) {
-        await client
-          .mutate({ mutation: CREATE_USER, variables: { username, password } })
-          .then(({ accessToken }) => {
-            console.log(res);
-            this.setState({ accessToken });
-          });
+      if (!localStorage.getItem('token')) {
+        await client.mutate({ mutation: CREATE_USER, variables: { username, password } });
       }
     }
 
-    await client.mutate({ mutation: LOGIN_USER, variables: { username, password } }).then(res => {
-      console.log(res);
-    });
+    await client
+      .mutate({ mutation: LOGIN_USER, variables: { username, password } })
+      .then(({ data }) => {
+        localStorage.setItem('accessToken', data.login.accessToken);
+      });
   }
 
   render() {

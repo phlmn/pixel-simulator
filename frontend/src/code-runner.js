@@ -2,7 +2,7 @@ import frameHelpers from 'raw-loader!./frame-helpers.js';
 
 let frame = null;
 
-export function runCode(code, { setPixel, clear, draw }) {
+export function runCode(code, { setPixel, clear, draw, onError }) {
   stopCode();
 
   frame = document.createElement('iframe');
@@ -17,7 +17,12 @@ export function runCode(code, { setPixel, clear, draw }) {
       const HEIGHT = 10;
 
       ${frameHelpers}
-      ${code}
+
+      try {
+        eval(${JSON.stringify(code)});
+      } catch (e) {
+        _reportError(e);
+      }
     </script>
   `,
       ],
@@ -46,6 +51,10 @@ export function runCode(code, { setPixel, clear, draw }) {
 
       case 'draw':
         if (draw) draw();
+        break;
+
+      case 'error':
+        if (onError) onError(payload.message);
         break;
     }
   };
