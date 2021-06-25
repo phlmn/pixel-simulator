@@ -10,6 +10,12 @@ import { runCode, sendMessage } from '../code-runner';
 import * as gamepad from '../gamepad';
 import { client } from '../backend';
 import { ErrorMessage } from './ErrorMessage';
+import { WebSerial } from './WebSerial';
+
+const initialCode = require('fs').readFileSync(
+  __dirname + '/../initial_editor_content.js',
+  'utf-8'
+);
 
 const WIDTH = 10;
 const HEIGHT = 10;
@@ -120,6 +126,7 @@ export default class GameEditor extends Component {
               text={this.state.error}
             />
           )}
+          <WebSerial />
           <WallPreview style={{}} pixels={this.state.pixels} />
         </div>
       </SplitterLayout>
@@ -128,7 +135,7 @@ export default class GameEditor extends Component {
 
   render() {
     if (this.props.gameId === 'new') {
-      return this.renderInner({});
+      return this.renderInner({ code: initialCode });
     } else {
       return (
         <Query
