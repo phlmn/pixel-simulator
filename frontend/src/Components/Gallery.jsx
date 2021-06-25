@@ -14,7 +14,9 @@ const GET_GAMES = gql`
 export default function Gallery({ onSelectGame }) {
   return (
     <div style={{ textAlign: 'center' }}>
-      <h1 style={{ color: 'white', margin: '3rem 0', textTransform: 'uppercase' }}>Pixelwall Game Gallery</h1>
+      <h1 style={{ color: 'white', margin: '3rem 0', textTransform: 'uppercase' }}>
+        Pixelwall Game Gallery
+      </h1>
       <div
         style={{
           display: 'flex',

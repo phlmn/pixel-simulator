@@ -1,5 +1,4 @@
-import frameHelpers from 'raw-loader!./frame-helpers.js';
-
+const frameHelpers = require('fs').readFileSync(__dirname + '/frame-helpers.js', 'utf-8');
 let frame = null;
 
 export function runCode(code, { setPixel, clear, draw, onError }) {

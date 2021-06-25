@@ -13,7 +13,7 @@
     "test": "echo 'never mind…'"
   },
   "devDependencies": {
-    "@types/bcrypt": "^3.0.0",
+    "@types/bcrypt": "^5.0.0",
     "@types/express-graphql": "^0.6.2",
     "@types/express-jwt": "^0.0.40",
     "@types/jsonwebtoken": "^8.3.0",

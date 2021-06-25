@@ -51,22 +51,21 @@ function mapButton(button) {
 }
 
 function getAxesValues(axes) {
-  let direction = [
-    axes[0] > 0,
-    axes[0] < 0,
-    axes[1] > 0,
-    axes[1] < 0,
-  ];
+  let direction = [axes[0] > 0, axes[0] < 0, axes[1] > 0, axes[1] < 0];
 
   return direction;
 }
 
 function mapAxis(index) {
   switch (index) {
-    case 0: return 'right';
-    case 1: return 'left';
-    case 2: return 'down';
-    case 3: return 'up';
+    case 0:
+      return 'right';
+    case 1:
+      return 'left';
+    case 2:
+      return 'down';
+    case 3:
+      return 'up';
   }
 }
 
@@ -84,7 +83,7 @@ export function startListening(onButton) {
     const e = { button, type };
     console.debug('[Gamepad] Button changed.', e);
     onButton(e);
-  }
+  };
 
   pollInterval = setInterval(() => {
     gamepads.forEach(index => {

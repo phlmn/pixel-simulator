@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import SplitterLayout from 'react-splitter-layout';
 import { gql } from 'apollo-boost';
 import { Query } from 'react-apollo';
-import MonacoEditor from 'react-monaco-editor';
+import Editor from '@monaco-editor/react';
 import { IoMdApps, IoMdPlay, IoMdCloudUpload } from 'react-icons/io';
 
 import { WallPreview } from './WallPreview';
@@ -99,15 +99,11 @@ export default class GameEditor extends Component {
             </div>
           </div>
           <div className="monaco" style={{ height: '100%', overflow: 'hidden' }}>
-            <MonacoEditor
+            <Editor
               language="javascript"
               theme="vs-dark"
               value={code}
               onChange={this.onChangeCode}
-              editorDidMount={editor => {
-                editor.focus();
-              }}
-              options={{ automaticLayout: true }}
             />
           </div>
         </div>
@@ -124,11 +120,7 @@ export default class GameEditor extends Component {
               text={this.state.error}
             />
           )}
-          <WallPreview
-            style={{
-            }}
-            pixels={this.state.pixels}
-          />
+          <WallPreview style={{}} pixels={this.state.pixels} />
         </div>
       </SplitterLayout>
     );
@@ -195,7 +187,7 @@ export default class GameEditor extends Component {
   };
 
   onKey = e => {
-    if (!e.repeat && e.path.length < 5) {
+    if (!e.repeat && (e.path ? e.path.length < 5 : true)) {
       // the target is not the code editor
       const match = e.code.match(/Arrow(.*)/g);
       if (match) sendMessage(e.type, match[0].replace('Arrow', '').toLowerCase());
