@@ -22,13 +22,13 @@ type Game {
   title: String!
   code: String!
   owner: User
-  preview: [[String]!]
+  preview: [[[Float!]!]!]
 }
 
 input GameUpdate {
   title: String
   code: String
-  preview: [[String]!]
+  preview: [[[Float!]!]!]
 }
 
 type User {

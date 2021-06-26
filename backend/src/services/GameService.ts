@@ -15,7 +15,7 @@ export async function createGame({
   title: string;
   code: string;
   owner?: string;
-  preview?: string[][];
+  preview?: number[][][];
 }) {
   const result = await collection().insertOne({
     owner,
@@ -49,7 +49,7 @@ export async function updateGame(
     code,
     preview,
     owner,
-  }: { title?: string; code?: string; preview?: string[][]; owner?: string }
+  }: { title?: string; code?: string; preview?: number[][][]; owner?: string }
 ) {
   if (!id) {
     throw new Error("Parameter 'id' may not be null.");

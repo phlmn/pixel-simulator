@@ -1,12 +1,15 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 import { gql } from 'apollo-boost';
+import { WallPreview, WallPreviewInner } from './WallPreview';
+import { initPixels } from './GameEditor';
 
 const GET_GAMES = gql`
   {
     games {
       _id
       title
+      preview
     }
   }
 `;
@@ -29,7 +32,7 @@ export default function Gallery({ onSelectGame }) {
           {({ data }) => {
             if (!data.games) return null;
 
-            return [...data.games, { title: '+', _id: 'new' }].map((app, i) => (
+            return [{ title: '+', _id: 'new' }, ...data.games].map((app, i) => (
               <div
                 style={{}}
                 key={i}
@@ -44,10 +47,12 @@ export default function Gallery({ onSelectGame }) {
                   justifyContent: 'center',
                   flexDirection: 'column',
                   cursor: 'pointer',
+                  position: 'relative',
                 }}
                 onClick={() => onSelectGame(app._id)}
               >
-                <h1>{app.title}</h1>
+                <h1 style={{position: 'absolute', top: '50%', transform: 'translateY(-50%)', width: '100%', margin: 0}}>{app.title}</h1>
+                <WallPreviewInner pixels={app.preview || initPixels} style={{width: '100%', height: '100%'}}/>
               </div>
             ));
           }}

@@ -20,7 +20,7 @@ const initialCode = require('fs').readFileSync(
 const WIDTH = 10;
 const HEIGHT = 10;
 
-const initPixels = Array(HEIGHT).fill(Array(WIDTH).fill([0, 0, 0]));
+export const initPixels = Array(HEIGHT).fill(Array(WIDTH).fill([0, 0, 0]));
 
 const GET_GAME = gql`
   query($id: String!) {
@@ -59,11 +59,14 @@ export default class GameEditor extends Component {
     error: null,
   };
 
+  code = '';
+  title = '';
+
   buffer = initPixels;
 
   renderInner = game => {
-    const title = this.state.title === undefined ? game.title : this.state.title || '';
-    const code = this.state.code === undefined ? game.code : this.state.code || '';
+    this.title = this.state.title || game.title || '';
+    this.code = this.state.code || game.code || '';
 
     return (
       <SplitterLayout horizontal percentage secondaryInitialSize={30}>
@@ -85,7 +88,7 @@ export default class GameEditor extends Component {
             <div>
               <input
                 type="text"
-                value={title}
+                value={this.title}
                 onChange={v => this.setState({ title: v.currentTarget.value })}
                 placeholder="Enter Title"
                 style={{
@@ -101,14 +104,14 @@ export default class GameEditor extends Component {
             </div>
             <div>
               <IoMdCloudUpload onClick={this.onUploadCode} style={{ marginRight: '20px' }} />
-              <IoMdPlay onClick={() => this.onRun(code)} id="play" />
+              <IoMdPlay onClick={() => this.onRun(this.code)} id="play" />
             </div>
           </div>
           <div className="monaco" style={{ height: '100%', overflow: 'hidden' }}>
             <Editor
               language="javascript"
               theme="vs-dark"
-              value={code}
+              value={this.code}
               onChange={this.onChangeCode}
             />
           </div>
@@ -162,15 +165,15 @@ export default class GameEditor extends Component {
 
   generatePreview = pixels => {
     return pixels.map(row => {
-      return row.map(col => this.arr2color(col));
+      return row.map(col => col);
     });
   };
 
   onUploadCode = async () => {
     if (this.props.gameId === 'new') {
       const createData = {
-        title: this.state.title,
-        code: this.state.code,
+        title: this.title,
+        code: this.code,
         preview: this.generatePreview(this.state.pixels),
       };
       const { data } = await client.mutate({
@@ -178,7 +181,9 @@ export default class GameEditor extends Component {
         variables: { data: createData },
       });
     } else {
-      const update = {};
+      const update = {
+        preview: this.generatePreview(this.state.pixels),
+      };
       if (this.state.title) update.title = this.state.title;
       if (this.state.code) update.code = this.state.code;
 
