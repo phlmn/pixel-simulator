@@ -8,7 +8,7 @@
   "license": "AGPL-3.0",
   "scripts": {
     "start": "parcel index.html",
-    "build": "parcel build --public-url \\\"./\\\" index.html",
+    "build": "parcel build --public-url ./ index.html",
     "format": "prettier --write 'src/**/*.{js,jsx}'",
     "test": "echo 'never mind…'"
   },

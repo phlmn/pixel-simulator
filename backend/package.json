@@ -33,7 +33,6 @@
     "graphql-playground-middleware-express": "^1.7.8",
     "jsonwebtoken": "^8.4.0",
     "mongodb": "^3.1.10",
-    "pixelwall-frontend": "1.0.0",
     "uuid": "^3.3.2"
   }
 }

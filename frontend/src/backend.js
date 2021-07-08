@@ -1,10 +1,12 @@
 import ApolloClient from 'apollo-boost';
 
+const GRAPHQL_URI = process.env.NODE_ENV === 'production'
+? `${window.location}graphql`
+: 'http://localhost:8000/graphql';
+console.log(GRAPHQL_URI);
+
 export const client = new ApolloClient({
-  uri:
-    process.env.NODE_ENV === 'production'
-      ? 'https://px.niemo.de/graphql'
-      : 'http://localhost:8000/graphql',
+  uri: GRAPHQL_URI,
   request: async operation => {
     const accessToken = localStorage.getItem('accessToken');
     const headers = {};

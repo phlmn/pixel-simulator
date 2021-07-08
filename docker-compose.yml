@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  frontend:
+    depends_on: 
+      - backend
+    ports:
+      - "80:80"
+    build: frontend/
+  backend:
+    depends_on: 
+      - mongo
+    build: backend/
+    environment:
+      - MONGO_URL=mongodb://mongo:27017    
+  mongo:
+    image: mongo:latest
