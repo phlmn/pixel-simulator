@@ -8,8 +8,8 @@ let buttons = {
 let onButtonDown = () => {};
 let onButtonUp = () => {};
 
-(function() {
-  window.onmessage = e => {
+(function () {
+  window.onmessage = (e) => {
     const { type, payload } = JSON.parse(e.data);
     switch (type) {
       case 'keydown':
@@ -49,7 +49,7 @@ let onButtonUp = () => {};
     sendMessage('draw');
   };
 
-  window._reportError = e => {
+  window._reportError = (e) => {
     sendMessage('error', { message: e.toString() });
   };
 })();

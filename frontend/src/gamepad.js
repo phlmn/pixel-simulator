@@ -2,7 +2,7 @@ let gamepads = [];
 let gamepadStates = {};
 let pollInterval = null;
 
-window.addEventListener('gamepadconnected', function({ gamepad }) {
+window.addEventListener('gamepadconnected', function ({ gamepad }) {
   console.info('[Gamepad] Gamepad connected.', gamepad);
   gamepads = [...gamepads, gamepad.index];
   gamepadStates[gamepad.index] = {
@@ -16,9 +16,9 @@ window.addEventListener('gamepadconnected', function({ gamepad }) {
   };
 });
 
-window.addEventListener('gamepaddisconnected', function({ gamepad }) {
+window.addEventListener('gamepaddisconnected', function ({ gamepad }) {
   console.info('[Gamepad] Gamepad disconnected.', gamepad);
-  gamepads = gamepads.filter(gp => gp !== gamepad.index);
+  gamepads = gamepads.filter((gp) => gp !== gamepad.index);
 });
 
 function mapButton(button) {
@@ -86,7 +86,7 @@ export function startListening(onButton) {
   };
 
   pollInterval = setInterval(() => {
-    gamepads.forEach(index => {
+    gamepads.forEach((index) => {
       const gamepad = navigator.getGamepads()[index];
       if (!gamepad) {
         console.debug('[Gamepad] Could not read gamepad data.', { index });

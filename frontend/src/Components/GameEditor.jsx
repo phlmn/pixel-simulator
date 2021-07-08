@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SplitterLayout from 'react-splitter-layout';
+import 'react-splitter-layout/lib/index.css';
 import { gql } from 'apollo-boost';
 import { Query } from 'react-apollo';
 import Editor from '@monaco-editor/react';
@@ -23,7 +24,7 @@ const HEIGHT = 10;
 export const initPixels = Array(HEIGHT).fill(Array(WIDTH).fill([0, 0, 0]));
 
 const GET_GAME = gql`
-  query($id: String!) {
+  query ($id: String!) {
     game(id: $id) {
       title
       code
@@ -32,7 +33,7 @@ const GET_GAME = gql`
 `;
 
 const UPDATE_GAME = gql`
-  mutation($id: String!, $data: GameUpdate!) {
+  mutation ($id: String!, $data: GameUpdate!) {
     updateGame(id: $id, data: $data) {
       _id
       title
@@ -42,7 +43,7 @@ const UPDATE_GAME = gql`
 `;
 
 const CREATE_GAME = gql`
-  mutation($data: GameUpdate!) {
+  mutation ($data: GameUpdate!) {
     createGame(data: $data) {
       _id
       title
@@ -64,7 +65,7 @@ export default class GameEditor extends Component {
 
   buffer = initPixels;
 
-  renderInner = game => {
+  renderInner = (game) => {
     this.title = this.state.title || game.title || '';
     this.code = this.state.code || game.code || '';
 
@@ -89,7 +90,7 @@ export default class GameEditor extends Component {
               <input
                 type="text"
                 value={this.title}
-                onChange={v => this.setState({ title: v.currentTarget.value })}
+                onChange={(v) => this.setState({ title: v.currentTarget.value })}
                 placeholder="Enter Title"
                 style={{
                   color: 'inherit',
@@ -163,9 +164,9 @@ export default class GameEditor extends Component {
     gamepad.startListening(this.onButton);
   }
 
-  generatePreview = pixels => {
-    return pixels.map(row => {
-      return row.map(col => col);
+  generatePreview = (pixels) => {
+    return pixels.map((row) => {
+      return row.map((col) => col);
     });
   };
 
@@ -194,11 +195,11 @@ export default class GameEditor extends Component {
     }
   };
 
-  onButton = e => {
+  onButton = (e) => {
     sendMessage('key' + e.type, e.button);
   };
 
-  onKey = e => {
+  onKey = (e) => {
     if (!e.repeat && (e.path ? e.path.length < 5 : true)) {
       // the target is not the code editor
       const match = e.code.match(/Arrow(.*)/g);
@@ -206,13 +207,13 @@ export default class GameEditor extends Component {
     }
   };
 
-  onChangeCode = code => {
+  onChangeCode = (code) => {
     this.setState({
       code,
     });
   };
 
-  onRun = code => {
+  onRun = (code) => {
     this.clear();
     this.clearError();
     runCode(code, {
@@ -227,7 +228,7 @@ export default class GameEditor extends Component {
     this.buffer = initPixels;
   };
 
-  handleError = message => {
+  handleError = (message) => {
     this.setState({ error: message });
   };
 
@@ -261,9 +262,9 @@ export default class GameEditor extends Component {
     const max = 255;
 
     if (transparency) {
-      return `rgb(${arr.map(v => min + v * (max - min)).join(',')}, ${this.arrBrightness(arr)})`;
+      return `rgb(${arr.map((v) => min + v * (max - min)).join(',')}, ${this.arrBrightness(arr)})`;
     } else {
-      return `rgb(${arr.map(v => min + v * (max - min)).join(',')})`;
+      return `rgb(${arr.map((v) => min + v * (max - min)).join(',')})`;
     }
   }
 

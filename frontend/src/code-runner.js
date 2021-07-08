@@ -33,7 +33,7 @@ export function runCode(code, { setPixel, clear, draw, onError }) {
   frame.frameBorder = 0;
   frame.id = 'frame';
 
-  window.onmessage = e => {
+  window.onmessage = (e) => {
     if (!frame || e.source !== frame.contentWindow) {
       return;
     }

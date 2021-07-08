@@ -31,7 +31,7 @@ setInterval(() => {
   draw();
 }, 1000 / 10);
 
-onButtonDown = btn => {
+onButtonDown = (btn) => {
   if (btn === 'A') {
     clear();
   }

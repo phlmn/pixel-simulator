@@ -30,7 +30,7 @@ export default function Gallery({ onSelectGame }) {
       >
         <Query query={GET_GAMES} fetchPolicy="cache-and-network">
           {({ data }) => {
-            if (!data.games) return null;
+            if (!data || !data.games) return null;
 
             return [{ title: '+', _id: 'new' }, ...data.games].map((app, i) => (
               <div
@@ -51,8 +51,21 @@ export default function Gallery({ onSelectGame }) {
                 }}
                 onClick={() => onSelectGame(app._id)}
               >
-                <h1 style={{position: 'absolute', top: '50%', transform: 'translateY(-50%)', width: '100%', margin: 0}}>{app.title}</h1>
-                <WallPreviewInner pixels={app.preview || initPixels} style={{width: '100%', height: '100%'}}/>
+                <h1
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    width: '100%',
+                    margin: 0,
+                  }}
+                >
+                  {app.title}
+                </h1>
+                <WallPreviewInner
+                  pixels={app.preview || initPixels}
+                  style={{ width: '100%', height: '100%' }}
+                />
               </div>
             ));
           }}

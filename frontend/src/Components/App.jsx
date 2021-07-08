@@ -1,13 +1,13 @@
 import React from 'react';
 import { gql } from 'apollo-boost';
-import nanoid from 'nanoid';
+import { nanoid } from 'nanoid';
 
 import GameEditor from './GameEditor';
 import Gallery from './Gallery';
 import { client } from '../backend';
 
 const CREATE_USER = gql`
-  mutation($username: String!, $password: String!) {
+  mutation ($username: String!, $password: String!) {
     register(username: $username, password: $password) {
       _id
     }
@@ -15,7 +15,7 @@ const CREATE_USER = gql`
 `;
 
 const LOGIN_USER = gql`
-  mutation($username: String!, $password: String!) {
+  mutation ($username: String!, $password: String!) {
     login(username: $username, password: $password) {
       accessToken
     }
@@ -58,7 +58,7 @@ export default class App extends React.Component {
         />
       );
     } else {
-      return <Gallery onSelectGame={id => this.setState({ selectedGame: id })} />;
+      return <Gallery onSelectGame={(id) => this.setState({ selectedGame: id })} />;
     }
   }
 }

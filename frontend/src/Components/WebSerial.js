@@ -9,7 +9,7 @@ class LineBreakTransformer {
     this.container += chunk;
     const lines = this.container.split('\r\n');
     this.container = lines.pop();
-    lines.forEach(line => controller.enqueue(line));
+    lines.forEach((line) => controller.enqueue(line));
   }
 
   flush(controller) {
@@ -45,7 +45,7 @@ async function initializePort(port) {
   setTimeout(async () => {
     const encoder = new TextEncoder();
     const writer = port.writable.getWriter();
-    const write = cmd => writer.write(encoder.encode(`${cmd}\r\n`));
+    const write = (cmd) => writer.write(encoder.encode(`${cmd}\r\n`));
     window.write = write;
 
     write('print("starting...")');
