@@ -148,7 +148,7 @@ export default class GameEditor extends Component {
           fetchPolicy="cache-and-network"
         >
           {({ data }) => {
-            if (!data.game) return null;
+            if (!data || !data.game) return null;
             return this.renderInner(data.game);
           }}
         </Query>
